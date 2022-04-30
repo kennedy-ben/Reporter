@@ -10,6 +10,10 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import authenticate, login, logout
 from . tokens import generate_token
+from django.http import JsonResponse
+from .models import Drinks
+from .serializers import DrinkSerializer
+
 
 # Create your views here.
 def home(request):
@@ -125,3 +129,8 @@ def signout(request):
     logout(request)
     messages.success(request, "Logged Out Successfully!!")
     return redirect('home')
+
+def drink_list(request):
+    drinks = Drinks.objects.all()
+    serializer = DrinkSerializer(drinks, many=True)
+    return JsonResponse({'drinks':serializer.data}, safe=False)
