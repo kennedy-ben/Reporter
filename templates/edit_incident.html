@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>iReporter</title>
+    <!-- include CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Lato" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+        crossorigin="anonymous">
+    <link rel=icon href="static/iReporter.ico">
+</head>
+
+<body class="bg">
+    <div class="incident">
+        <nav class="navbar">
+            <div class="container">
+                <ul class="nav">
+                    <li class="nav-item nav-brand">
+                        <a href="index.html">iReporter</a>
+                    </li>
+                </ul>
+                <ul class="nav nav-right">
+                    <li class="nav-item">
+                        <a href="./dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./addincident.html">Create Incident</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./incidences.html">My Incidences</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./admin_incidences.html">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" onclick="logout()">Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <div class="container ">
+            <div class='incident-form-wrapper'>
+                <div>
+                    <h1>Create an Incident</h1>
+                    <!-- <button class="tag">Draft</button> -->
+                </div>
+                <form action='./incidences.html' enctype="multipart/form-data" class="incident-form">
+
+                    <div class='form-group admin-status'>
+                        <label for="status">Status <span class='required'>*</span></label>
+
+                        <select name="incident_type" id="status">
+                            <option value="draft">Draft</option>
+                            <option value="under-investigation">Under Investigation</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                    </div>
+                    <div class='form-group'>
+                        <label for=incident_type>Type <span class='required'>*</span></label>
+                        <!-- <input id="incidenttype" type="text"> -->
+                        <select name="incidenttype" id='incidenttype' disabled>
+                            <option value="">Select</option>
+                            <option value="red-flag">Red Flag</option>
+                            <option value="intervention">Intervention</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Comment <span class='required'>*</span></label>
+                        <!-- <br> -->
+                        <textarea name="comment" placeholder="An explanation in detail of what you are reporting" id="comment"
+                            disabled></textarea>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="image">Image</label>    
+                        <input id="iamge" type="file" name="media" accept="image/*" multiple disabled>
+                        <br>
+                    </div>
+                    <div class="form-group">
+                        <label for="video">Video</label>
+                        <input id="video" type="file" name="media" accept="video/*" multiple disabled>
+                        <br>
+                    </div> -->
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" placeholder="[lat,long]" required readonly>
+                        <div class="errors"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="form-button" onclick="update()">Submit</button>
+                    </div>
+                    <div class="map" id="map">
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+</html>

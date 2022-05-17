@@ -1,8 +1,14 @@
-from dataclasses import field
 from rest_framework import serializers
-from .models import Drinks 
 
-class DrinkSerializer(serializers.ModelSerializer):
-    class Meta:
-        modal= Drinks
-        field = ['id', 'name', 'description']
+from flag.models import Person, Species
+
+class PersonSerializer(serializers.ModelSerializer):
+   class Meta:
+       model = Person
+       fields = ('name', 'birth_year', 'eye_color', 'species')
+
+
+class SpeciesSerializer(serializers.ModelSerializer):
+   class Meta:
+       model = Species
+       fields = ('name', 'classification', 'language')
