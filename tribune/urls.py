@@ -39,5 +39,5 @@ urlpatterns = [
         route='login/',
         view=views.LoginView.as_view(),
         name='login'
-    )
+    ),
 ]

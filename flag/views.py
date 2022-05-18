@@ -15,6 +15,7 @@ from rest_framework import viewsets
 
 
 # Create your views here.
+ 
 def home(request):
     return render(request, "index.html")
 
@@ -128,7 +129,7 @@ def login(request):
 
 
 def signout(request):
-    logout(request)
+    signout(request)
     messages.success(request, "Logged Out Successfully!!")
     return redirect('home')
 
