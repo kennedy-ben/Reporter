@@ -1,45 +1,26 @@
-<html>
+<nav class="navbar navbar-expand-sm navbar-light bg-light" style="color: black;">
+    <div class="container-fluid">
 
-<body>
-    <div class="navigation container-fluid" style=" height:48px; font-family: 'Raleway', sans-serif;">
-        <div class="">
-            <div class="row">
-                <div class="col-sm-6 col-md-6">
-                    <a href="/">HOME</a>
-                </div>
-                <div class="col-sm-6 col-md-6" style="text-align:right;">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6">
-                            <!-- <a href="/">CREATE API</a> -->
-                            <!-- <a href=>CREATE API</a></i> &nbsp; &nbsp; -->
-                            <a href="#section1" style="color: blue;" class="js-anchor-link button">CREATE API</a>
-                            <a href="#section1" style="color: blue;" class="js-anchor-link button">DISCOVER API</a>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                            <div class="row">
-                                <div class="col-md-6 col-sm-6">
-                                    <a href="{% url 'profile' %}">{{user.username}}</a>
-                                    <img src="static/images/Neighbourhood-Plan-1200-x-400" alt="" width="15%">
-                                </div>
-                                <div class="col-md-6 col-sm-6" >
-                                    {% if user.is_authenticated %}
-                                    
-                                    <a href="/logout">LOGOUT</a>
+        <a class="navbar-brand" href="/"><b>Neiba</b></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                                    {% else %}
-
-                                    <a class='btn btn-default' href="/accounts/login">LOGIN /REGISTER</a>
-
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+        <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav me-auto">
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Sign-OUT</a>
+            </li>
+            <li class="nav-item d-flex">
+                <a class="nav-link " href="{% url 'new-hood' %}"><b>Create-Hood</b></a>
+            </li>
+            <li class="nav-item d-flex">
+                <a class="nav-link " href="{% url 'profile' user.username %}"><b>Profile: ({{ user}})</b></a>
+            </li>
+            {% endif %} 
+            </ul>
         </div>
-    </div>
-</body>
 
-</html>
+    </div>
+</nav>

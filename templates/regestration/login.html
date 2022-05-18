@@ -1,49 +1,54 @@
+{% extends 'base.html' %} 
 
-  
-{%extends "registration/base.html"%}
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
+
+
 {% block content %}
-<div class="container-fluid" style="font-family: 'Raleway', sans-serif;  padding-top: 80px;">
-  <div class="container">
-    <!-- Empty div -->
-    <div class="row">
-      <div class="col-md-6"></div>
-      <div class="col-md-4">
-        {% if form.errors %}
-        <p> Password or Username is incorrect </p>
-        {% endif %}
-        <div class="panel panel-default" style="border:1px solid rgb(231, 231, 231); border-radius:5px;">
+{% if page == 'login' %}
 
-          <div class="panel-heading" style="background-color:rgb(231, 231, 231);  padding:10px;">
-            <h2><strong>Api Watch</strong> </h2>
-            <h5 class="text-center">Sign In</h5>
-          </div>
-          <div class="panel-body" style="padding:10px;">
+<style>
+  .login{
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    position: relative;
+    
+  }
+</style>
 
-            <form action="/accounts/login/" method="post">
-              {% csrf_token %}
-              {% bootstrap_form form%}
+    <div class="login">
+        <h3>Sign In</h3>
+        <form action="" method='post'>
+            {% csrf_token %} 
+            <div class="form-group">
+                <label>username:</label>
+                <input type="text" name='username' placeholder="Enter username">
+            </div>
 
-              <div class="form-group">
-                <input type="submit" class="btn btn-primary btn-sm" value="Login">
-              </div>
-
-              <input type="hidden" name="next" value="{{next}}">
-
-            </form>
-            <a href="/accounts/register">REGISTER</a>
-          </div>
-
-        </div>
-
-      </div>
+            <div class="form-group">
+                <label>username:</label>
+                <input type="password" name='password' placeholder="Enter password">
+            </div>
+            <input type="submit" value="login" class="login-btn">
+        </form>
+        <p>Havent signed up yet?</p>
+        <a href="{% url 'register' %}">sign up</a>
     </div>
-    <!-- empty div -->
-    <div class="col-md-2"></div>
-  </div>
-  <div class="container-fluid">
-    <img src="/static/images/streets-graphic-brn.png" alt="" width="100%;">
-  </div>
-</div>
+
+{% else %}
+    
+    <div class="form-wrapper my-3">
+        <h3>Sign-UP</h3>
+        <form action="" method='post'>
+            {% csrf_token %}  
+            {% bootstrap_form form %}        
+            <!-- {{ form.as_p }} -->
+            <input type="submit" value="register" class="login-btn">
+        </form>
+        <p>Already signed up?</p>
+        <a href="{% url 'login' %}">login</a>
+    </div>
+{% endif %}
 
 {% endblock %}

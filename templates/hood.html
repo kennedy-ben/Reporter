@@ -1,92 +1,109 @@
 {% extends 'base.html' %}
-{%load bootstrap3 %}
-{% block content%}
+{% load crispy_forms_tags %}
+{% block content %}
 
-<div class="container-fluid" style="margin-top:60px;">
-
+<div class="container" style="margin-top:-4">
     <div class="row">
-        <div class="container">
-            <h2><strong>{{hood.name.capitalize}}</strong></h2>
-            <hr>
-            <h4>Location: <strong>{{hood.location}}</strong></h4>
-            <p>{{hood.occupants}} Occupants</p>
-            <h4>{{hood.bio}}</h4>
-
-            <a class="btn btn-sm btn-success" href="{% url 'newpost' %}">Create a Post</a>
-            <a class="btn btn-sm btn-danger" href="  {% url 'business' %}">Add busines</a>
-
-            <p>
-                <div>
-                    <div class="row text-center">
-                        <small> Businesses in this hood</small>
-                        <hr>
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="col-md-5">
+                        <img src="{{ hood.logo.url }}" class="card-img" alt="..." style="width: 200px; height: 200px; border-radius: 50%">
                     </div>
-
-                    <table class="table table-striped ">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Business</th>
-                                <th scope="col">Owner</th>
-                                <th scope="col">Neighbourhood</th>
-                                <th scope="col">Business Email</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% if businesses %}
-                            {% for biz in businesses %}
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>{{biz.name.capitalize}}</td>
-                                <td>{{biz.user}}</td>
-                                <td>{{ biz.hood }}</td>
-                                <td>{{biz.email}}</td>
-                            </tr>
-                            {%endfor%}
-                            {% else %}
-                            <h4 class="text-center">No Business has been created for this hood yet. Be the first to
-                                create on <a href="{% url 'business' %}">here</a></h4>
-                            {% endif %}
-                        </tbody>
-                    </table>
-                    {%if posts%}
-                    <div class="row">
-                        <div class="col-md-7"></div>
-                        <div class="col-md-5">
-                            <form class="" class="" action="{% url 'search' %}">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search Forum" name="searchForum">
-                                </div>
-
-                            </form>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h5 class="card-title tt">Neighborhood:  {{ hood.name }}</h5><hr>
+                            <h5>Location: {{hood.location}}</h5><hr>
+                            <h6 class="card-text">
+                                <span><strong>{{hood.members.count}}</strong> Member{{hood.members.count|pluralize}}</span>
+                                | <strong>{{ hood.business.count }}</strong> Businesses | <strong>
+                                {{ hood.hood_post.count }}</strong> Post{{ hood.hood_post.count|pluralize }}
+                            </h6><hr>
+                            <h6>Description: {{hood.description}}</h6><hr>
+                            <h6 class="text-info">Authorities: {{hood.police_no}}</h6><hr>
+                            <h6 class="text-info">Health Services: {{hood.health_no}}</h6><hr>
+                            <p class="card-text">Administrator: <small class="text-muted">
+                                {{ hood.admin.user.username }}</small></p><hr>
                         </div>
                     </div>
-                    <div class="row">
-                        {% for post in posts %}
-                        <div class="col-md-4">
-
-                            <div class="card" style="margin-bottom:50px">
-                                <h3 style="text-align: center">Post</h3>
-                                <div class="card-header"><strong>{{ post.title }}</strong>
-                                </div>
-                                <div class="card-footer">
-                                    <p>{{post.description}}</p>
-                                    <p><a href=""><i class="fa fa-" aria-hidden="true" style="color:black;"></i>Add Comment</a></p>
-                                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container bg-white hoode">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{% url 'create_business' %}" class="btn btn-sm btn-outline-info mb-4 mr-4" data-toggle="modal" data-target="#ModalCenter">Add
+                    Business</a>
+                <a class="btn btn-sm btn-outline-info mb-4" href="{% url 'post' hood.id %}">New Post</a>
+                {% if hood.admin == user.profile %}
+                <a href="{% url 'members' hood.id %}" class="btn btn-sm btn-outline-info mb-4 ml-4">Members</a>
+                {% endif %}
+                <hr>
+                <h5 class="D-block mx-auto tt text-center"><strong>Hood Biashara</strong></h5>
+                <hr>
+                <div class="row">
+                    {% for bus in business %}
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">{{bus.name}}
+                                </h5>
+                                <p class="card-text text-info">{{bus.email}}</p>
+                                <p class="card-text">{{bus.description}}</p>
+                                <p class="card-text">Owner: <small class="text-muted">
+                                    {{ bus.user.user.username|title }}</small></p>
                             </div>
                         </div>
-                        {% endfor %}
                     </div>
-
-                    {% else %}
-                    <h4 class="text-center">No Post has been created for this hood yet. Be the first to create on <a
-                            href="{% url 'newpost' %}">here</a></h4>
-                    {% endif %}
-
-
-                    {%endblock%}
+                    {% endfor %}
+                </div><hr>
+                <h5 class="D-block mx-auto tt text-center"><strong>Hood News</strong></h5>
+                <div class="row">
+                    {% for post in posts %}
+                    <div class="col-md-4">
+                        <div class="card mb-4 hpost">
+                            <div class="card-body">
+                                <h5 class="card-title">Title: <small>{{post.title}}</small></h5><hr>
+                                <p class="card-text">Post: <small>{{post.post}}</small>
+                                </p><hr>
+                                <p class="card-text">By: <small>
+                                    {{ post.user|title }}</small> <small style="float:right">Posted: {{post.date|date}}</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
+                <hr>
+                <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">New Business</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="" method="post">
+                                    {% csrf_token%}
+                                    {{form|crispy}}
+                                    <button type="submit" class="btn btn-sm btn-success">Save Business</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger " data-dismiss="modal">
+                                        Close
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
+
+
+</div>
+
+{% endblock %}

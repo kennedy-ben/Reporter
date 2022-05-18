@@ -1,34 +1,31 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django import forms
-from .models import *
-class NewsLetterForm(forms.Form):
-    your_name = forms.CharField(label='First Name',max_length=30)
-    email = forms.EmailField(label='Email')
+from .models import Profile, NeighbourHood, Business, Post
 
+class RegisterForm(UserCreationForm):
+    email = forms.EmailField()
 
-class NewPostForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+class NeighbourHoodForm(forms.ModelForm):
+    class Meta:
+        model = NeighbourHood
+        exclude = ('admin',)     
+
+class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ['user']
+        exclude = ('user', 'hood')   
 
-class UserForm(forms.ModelForm):
+class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('name','user_name','bio')
-
-
-class CreateHoodForm(forms.ModelForm):
-    class Meta:
-        model = Neighbourhood
-        fields = ['name','location','occupants']
-
-
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['name','bio']
-
+        exclude = ('user', 'neighbourhood')
 
 class BusinessForm(forms.ModelForm):
     class Meta:
-        model  = Business
-        fields = ['name','hood','email']
+        model = Business
+        exclude = ('admin',)

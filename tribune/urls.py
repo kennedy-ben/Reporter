@@ -20,24 +20,14 @@ Including another URLconf
 
 
 from django.contrib import admin
-from django.urls import include, path
-from django.contrib import admin
+
+from django.urls import path, include
 from django.contrib.auth import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('' ,include('flag.urls')),
-    path('accounts/', include('registration.backends.simple.urls')),
-    
-    path(
-        route='logout/',
-        view=views.LogoutView.as_view(),
-        name='logout'
-    ),
-
-    path(
-        route='login/',
-        view=views.LoginView.as_view(),
-        name='login'
-    ),
+    path('', include('flag.urls')),
+    path('login/', views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', views.LogoutView.as_view(template_name='home.html'), {"next_page": '/'}),
 ]
